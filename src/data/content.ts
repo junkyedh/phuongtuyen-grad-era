@@ -15,7 +15,7 @@ export const siteContent = {
   eventHeading: 'SAVE THE DATE',
   mapDirections: 'MỞ CHỈ ĐƯỜNG',
   mapPending: 'Bản đồ sẽ được cập nhật sớm.',
-  closingMessage: 'Thanh xuân của Phương Tuyền sẽ trọn vẹn hơn khi có bạn ở đó.',
+  closingMessage: 'Thanh xuân của Phương Tuyền sẽ trọn vẹn hơn khi có bạn ở đó',
   closingThankYou: 'Cảm ơn vì đã là một phần ký ức thật đẹp!',
   closingEnglish: 'Our day, your presence, endless memories',
   musicOn: 'Tắt nhạc',
