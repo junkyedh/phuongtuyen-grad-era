@@ -123,7 +123,10 @@ export function ClosingSection() {
   return (
     <section className="closing-section section-wrap" aria-label="Lời kết" data-reveal>
       <SunflowerIllustration className="closing-bouquet" variant="bouquet" />
-      <p>{siteContent.closingMessage}</p>
+      <div className="closing-copy">
+        <p className="closing-message">{siteContent.closingMessage}</p>
+        <p className="closing-thank-you">{siteContent.closingThankYou}</p>
+      </div>
       <p className="closing-english">{siteContent.closingEnglish}</p>
     </section>
   );

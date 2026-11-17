@@ -919,19 +919,57 @@ figure {
   margin-bottom: 2px;
 }
 
-.closing-section > p:first-of-type {
-  max-width: 100%;
-  font-size: clamp(1.3rem, 3.3vw, 2.15rem);
+
+.closing-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.closing-message {
+  max-width: 850px;
+  font-size: clamp(1.25rem, 2.2vw, 1.85rem);
   font-weight: 700;
-  line-height: 1.65;
+  line-height: 1.55;
+  text-wrap: balance;
+}
+
+.closing-thank-you {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--brown-soft);
+  text-wrap: balance;
 }
 
 .closing-english {
-  color: var(--brown-soft);
-  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
   font-style: italic;
   line-height: 1.6;
+  color: var(--brown-soft);
+  text-align: center;
 }
+
+@media (max-width: 767px) {
+  .closing-copy {
+    gap: 14px;
+  }
+
+  .closing-message {
+    font-size: clamp(1.2rem, 5vw, 1.45rem);
+    line-height: 1.6;
+  }
+
+  .closing-thank-you {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+}
+
 
 /* Decorative sunflower petal after the closing caption (not a text glyph). */
 .closing-petal {
