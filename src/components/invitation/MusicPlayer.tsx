@@ -1,122 +1,63 @@
 'use client';
 
-import { useCallback, useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react';
-import { useInvitationCopy } from './LanguageProvider';
+import { useCallback, useImperativeHandle, useRef, useState, type Ref } from 'react';
+import { event } from '@/data/event';
+import { siteContent } from '@/data/content';
 
 export type MusicHandle = {
-  startIfEnabled: () => void;
+  startFromGesture: () => void;
 };
 
-type MusicPlayerProps = {
-  ref: Ref<MusicHandle>;
-  available: boolean;
-};
-
-export default function MusicPlayer({ ref, available }: MusicPlayerProps) {
+export default function MusicPlayer({ ref }: { ref: Ref<MusicHandle> }) {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const enabledRef = useRef(true);
-
   const [playing, setPlaying] = useState(false);
-  const [unavailable, setUnavailable] = useState(false);
 
-  const copy = useInvitationCopy().music;
-
-  const tryPlay = useCallback(() => {
-    if (!available || !enabledRef.current || unavailable) return;
-
+  const play = useCallback(() => {
     const audio = audioRef.current;
     if (!audio || !audio.paused) return;
+    // Keep play() in the original user gesture so browsers can authorize audio.
+    void audio.play().catch(() => setPlaying(false));
+  }, []);
 
-    void audio.play().catch(() => {
-      if (audio.paused) setPlaying(false);
-    });
-  }, [available, unavailable]);
-
-  // Attempt autoplay on every invitation page.
-  useEffect(() => {
-    tryPlay();
-  }, [tryPlay]);
-
-  // Retry when the user opens the envelope.
-  useImperativeHandle(ref, () => ({ startIfEnabled: tryPlay }), [tryPlay]);
+  useImperativeHandle(ref, () => ({ startFromGesture: play }), [play]);
 
   function toggle() {
     const audio = audioRef.current;
-    if (!audio || unavailable) return;
-
-    if (!audio.paused) {
-      enabledRef.current = false;
-      audio.pause();
-    } else {
-      enabledRef.current = true;
-      tryPlay();
-    }
+    if (!audio) return;
+    if (audio.paused) play();
+    else audio.pause();
   }
-
-  if (!available) return null;
 
   return (
     <>
       <audio
         ref={audioRef}
-        src="/audio/grad-theme.mp3"
-        preload="auto"
+        src={event.audioSrc}
+        preload="none"
         loop
-        onPlay={() => {
-          if (enabledRef.current) {
-            setPlaying(true);
-          } else {
-            audioRef.current?.pause();
-          }
-        }}
+        onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
-        onError={() => {
-          setPlaying(false);
-          setUnavailable(true);
-        }}
+        onError={() => setPlaying(false)}
       />
-
-      <div className="music-control">
-        <button
-          type="button"
-          onClick={toggle}
-          disabled={unavailable}
-          aria-pressed={playing}
-          aria-label={unavailable ? copy.unavailable : playing ? copy.pause : copy.play}
-        >
-          {playing ? (
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-              <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />
-            </svg>
-          ) : (
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-              <path d="m16 9 5 6m0-6-5 6" />
-            </svg>
-          )}
-        </button>
-      </div>
+      <button
+        className="music-control"
+        type="button"
+        onClick={toggle}
+        aria-label={playing ? siteContent.musicOn : siteContent.musicOff}
+        aria-pressed={playing}
+      >
+        {playing ? (
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+            <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+            <path d="m16 9 5 6m0-6-5 6" />
+          </svg>
+        )}
+      </button>
     </>
   );
 }

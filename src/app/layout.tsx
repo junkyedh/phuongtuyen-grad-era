@@ -20,8 +20,6 @@ const displayFont = Barlow_Condensed({
 export const metadata: Metadata = {
   title: siteContent.title,
   description: siteContent.description,
-  referrer: 'no-referrer',
-  robots: { index: false, follow: false },
   openGraph: {
     title: siteContent.title,
     description: siteContent.description,
@@ -31,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="en" className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}>
+    <html lang="vi" className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

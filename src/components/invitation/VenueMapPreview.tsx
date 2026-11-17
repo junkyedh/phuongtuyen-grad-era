@@ -1,36 +1,47 @@
-type Props = {
-  embedUrl: string;
-  directionsUrl?: string;
-  directionsLabel?: string;
-  venueName: string;
-};
+import { siteContent } from '@/data/content';
 
-const approvedVenueEmbedUrl =
-  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.2436717628357!2d106.7962058!3d10.8690622!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527dc5cf0055b%3A0x111f376ec66f68f1!2zSOG7mWkgdHLGsOG7nW5nIFRy4bqnbiBDaMOtIMSQw6Fv!5e0!3m2!1svi!2s!4v1794595414534!5m2!1svi!2s';
-
-function validEmbedUrl(value: string): boolean {
+function isGoogleMapsEmbed(value: string): boolean {
   try {
     const url = new URL(value.trim());
     return (
       url.protocol === 'https:' &&
       url.hostname === 'www.google.com' &&
-      url.pathname === '/maps/embed' &&
-      Boolean(url.searchParams.get('pb'))
+      url.pathname === '/maps/embed'
     );
   } catch {
     return false;
   }
 }
 
-export default function VenueMapPreview({ embedUrl, venueName }: Props) {
-  const src = validEmbedUrl(embedUrl) ? embedUrl.trim() : approvedVenueEmbedUrl;
+export default function VenueMapPreview({
+  embedUrl,
+  directionsUrl,
+  venueName,
+}: {
+  embedUrl: string;
+  directionsUrl: string;
+  venueName: string;
+}) {
+  if (!isGoogleMapsEmbed(embedUrl)) {
+    return (
+      <div className="map-preview map-pending" role="group" aria-label={`Bản đồ ${venueName}`}>
+        <span className="map-sun" aria-hidden="true">
+          ✿
+        </span>
+        <p>{siteContent.mapPending}</p>
+        <a className="directions-link" href={directionsUrl} target="_blank" rel="noreferrer">
+          {siteContent.mapDirections}
+        </a>
+      </div>
+    );
+  }
 
   return (
-    <div className="map-preview" role="group" aria-label={`Location preview for ${venueName}`}>
+    <div className="map-preview" role="group" aria-label={`Bản đồ ${venueName}`}>
       <iframe
         className="map-embed"
-        title={`Google Maps preview for ${venueName}`}
-        src={src}
+        title={`Bản đồ Google Maps: ${venueName}`}
+        src={embedUrl.trim()}
         loading="lazy"
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen

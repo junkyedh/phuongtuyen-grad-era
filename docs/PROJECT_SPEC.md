@@ -1,223 +1,201 @@
-# Sunny Graduation — Project Specification
+# Phương Tuyền Graduation Invitation
 
-**Project status: Phase 1 — Documentation / Planning**
+This document describes the current application. `src/data/event.ts`, `src/data/content.ts`, and the rendered components are the source of truth for event data, copy, and behavior.
 
-This document is the active specification for the Sunny Graduation project. It distinguishes confirmed requirements from a proposed opening interaction and from assets/configuration that have not yet been supplied. No implementation is claimed by this document.
+## 1. Project Overview
 
-## 1. Project overview
+The project is a single-route public graduation invitation for Trần Nguyễn Phương Tuyền. Its concept is **Sunny Graduation / Sunflower Editorial**, with the theme **A New Chapter Begins**. It is intended for friends, family, and other guests through one shareable URL at `/`.
 
-- **Project name:** Sunny Graduation
-- **Concept:** A New Chapter Begins
-- **Graduate:** Trần Nguyễn Phương Tuyền
-**Purpose:** A public, general graduation invitation. One shareable URL serves all guests.
+The experience opens with an interactive potted sunflower and then presents four content sections: Hero, Personal Invitation, Event Details, and Closing. The application is frontend-only: there is no backend, personalized guest data, RSVP, authentication, or language switcher.
 
-The website is a separate project with a visual concept and scope distinct from its existing technical foundation. It does not need guest-specific routing, guest management, RSVP, or a backend.
+## 2. Event Information
 
-## 2. Confirmed event details
+Event and media values are maintained in `src/data/event.ts`.
 
-- **University:** Trường Đại học Bách khoa – Đại học Quốc gia TP.HCM (HCMUT)
-- **Program:** Kỹ thuật Hệ thống công nghiệp
-- **Class:** ISE K22
-- **Date:** Friday, November 27, 2026
-- **Time:** 15:00–17:00, Asia/Ho_Chi_Minh
-- **Venue:** 268 Lý Thường Kiệt, Phường Diên Hồng (Quận 10 cũ), TP.HCM
-- **Google Maps navigation link:** [Open the venue in Google Maps](https://maps.app.goo.gl/oxtH9sgLVwcthiY2A?g_st=iz)
-
-The short link above is for visitor navigation. It is not an embeddable map URL.
-
-## 3. Design concept and visual system
-
-The visual direction is sunny, youthful, cute, clean, and warm. The layout should be mobile-first, responsive, bright without becoming visually overwhelming, and use generous whitespace, short content, minimal typography, and a limited number of hand-drawn sunflower and graduation decorations.
-
-| Token | Color |
+| Field | Current value |
 |---|---|
-| Ivory | `#FFF9EC` |
-| Sunshine Yellow | `#FFCB54` |
-| Honey Yellow | `#EAAA25` |
-| Beige | `#EBDCC3` |
-| Warm Brown | `#744B25` |
+| Graduate | Trần Nguyễn Phương Tuyền |
+| University | Trường Đại học Bách khoa TP.HCM |
+| Program | Kỹ thuật Hệ thống công nghiệp |
+| Class | ISE K22 |
+| Date | Friday, 27 November 2026 |
+| Time | 15:00–17:00 |
+| Time zone | `Asia/Ho_Chi_Minh` |
+| Venue | Trường Đại học Bách khoa TP.HCM |
+| Address | 268 Lý Thường Kiệt, Phường Diên Hồng (Quận 10 cũ), TP.HCM |
+| Contact | Phương Tuyền — 0908 719 199 |
+| Phone action | `tel:+84908719199` |
 
-Be Vietnam Pro is the preferred primary font. Reuse existing assets or components only when they suit this concept. The real graduation portrait is pending and must not be represented as an existing asset.
+The event data also contains the Google Maps directions URL, iframe URL, portrait path, and audio path.
 
-## 4. Page structure and approved copy
+## 3. Design System
 
-The planned page has four main sections. Keep each section focused and avoid repeating details already presented elsewhere.
+### Visual identity
 
-### Section 1 — Hero
+The visual direction is warm, bright, friendly, youthful, and editorial. Cream and yellow surfaces, brown typography, generous but controlled spacing, and hand-drawn sunflower details carry the theme. The entry screen uses a cream paper-like surface on a butter-yellow background. The invitation section uses an open editorial layout rather than a bordered message card.
 
-Approved copy:
+### Color tokens
 
-- `YOU'RE INVITED!`
-- `LỄ TỐT NGHIỆP`
-- `Trần Nguyễn Phương Tuyền`
+The CSS custom properties are defined in `src/app/globals.css`:
 
-Use the future graduation portrait as the primary visual when supplied. Keep the opening compact and easy to read. Do not place long paragraphs, the full schedule, or venue details here.
+| Token | Value |
+|---|---|
+| `--cream` | `#FFF9EF` |
+| `--butter` | `#F7E19B` |
+| `--beige` | `#E9DCC6` |
+| `--sunflower` | `#F4B942` |
+| `--brown` | `#654321` |
+| `--brown-soft` | `#765A3C` |
+| `--paper` | `#FFFDF8` |
 
-### Section 2 — A Little Invitation
+### Typography and layout
 
-Proposed approved Vietnamese copy:
+`src/app/layout.tsx` loads Be Vietnam Pro for body copy and Barlow Condensed for display headings through `next/font/google`. The page uses semantic section headings and a responsive editorial layout. CSS switches to the mobile layout at `max-width: 767px`; desktop two-column layouts begin at `min-width: 768px`. The invitation content uses a centered maximum-width layout, while the map and portrait maintain their own responsive dimensions.
 
-> Vậy là sắp đến ngày tốt nghiệp rồi! Nếu hôm đó rảnh, ghé chụp cùng Tuyền vài tấm hình nha. Có mọi người ở đó chắc chắn sẽ vui hơn nhiều!
+### Illustrations
 
-The tone should feel natural and personal, not formal, excessively poetic, or promotional. It addresses a general audience and needs no guest-specific pronouns. Do not add long paragraphs or repeat graduation details.
+`SunflowerIllustration.tsx` provides reusable inline SVG variants (single flower, sprig, bouquet, and heading accent). The reveal flower is a separate inline SVG in `SunflowerReveal.tsx`, with a potted plant, closed bud, and open petal groups. Decorative SVGs are hidden from assistive technology.
 
-### Section 3 — Event Details
+## 4. User Experience
 
-Clearly display:
+1. The root page renders a centered potted sunflower interaction over the warm yellow background. The button includes the sender line **“PHƯƠNG TUYỀN GỬI BẠN CHÚT NẮNG”** and the visible prompt **“CHẠM ĐỂ HOA NỞ”**.
+2. Activating the semantic button starts a music playback request synchronously in the same user gesture and changes the experience from `closed` to `blooming`.
+3. CSS grows the plant from the pot, transitions the bud into open petals, and then the experience switches to `open`. The invitation reveal timer is 2,050 ms. The button is disabled during the bloom transition.
+4. With `prefers-reduced-motion: reduce`, the experience opens immediately rather than waiting for the bloom animation.
+5. After opening, the visitor can read and scroll through the four invitation sections. A small fixed speaker button controls music.
 
-- Friday, November 27, 2026
-- 15:00–17:00
-- Trường Đại học Bách khoa – ĐHQG TP.HCM
-- 268 Lý Thường Kiệt, Phường Diên Hồng, TP.HCM
-- Kỹ thuật Hệ thống công nghiệp · ISE K22
+The invitation remains on `/`; opening it does not navigate or reload the page.
 
-Include a responsive, real Google Maps iframe preview and a working navigation action. The iframe `src` must use a valid URL obtained from Google Maps **Share → Embed a map**. Do not fabricate an embed URL or use the supplied `maps.app.goo.gl` navigation short link as its source. If the embed URL is unavailable, treat it as required configuration input and retain a visible navigation fallback in case the iframe fails. Avoid duplicate navigation buttons when the embedded map already provides the needed interaction.
+## 5. Website Sections
 
-### Section 4 — Closing
+The sections are composed in order in `src/app/page.tsx` and `src/components/invitation/InvitationSections.tsx`. Text is centralized in `src/data/content.ts`, with event facts in `src/data/event.ts`.
 
-Approved copy:
+### Hero / Graduation Cover
 
-> Our day, your presence, endless memories ♡
+The hero presents `YOU'RE INVITED!`, then **LỄ / TỐT NGHIỆP**, the graduate’s name, `ISE K22 – Kỹ thuật Hệ thống công nghiệp`, and the university name. The name is rendered from the event data and wraps only between `TRẦN NGUYỄN` and `PHƯƠNG TUYỀN`. A portrait and `CLASS OF 2026` caption complete the composition, with a small botanical sprig accent.
 
-> Cùng nhau lưu giữ một ngày thật đáng nhớ.
+The portrait source is `/img/pt-portrait.jpg`, configured by `event.portraitSrc` and rendered through `next/image`.
 
-This is the final section. Keep it minimal, with a subtle sunflower or graduation illustration. Do not repeat the full schedule, graduate name, university, or venue. Do not include an RSVP or contact form.
+### Personal-style General Invitation
 
-## 5. Proposed opening interaction — Sunflower Reveal
+There is no visible section heading. A visually hidden heading supplies the section’s accessible name. The section pairs a sunflower illustration with this supporting line and invitation copy:
 
-**Status: Recommended, pending final design approval.** This is a concept for design review, not a finalized UI decision.
+> Hành trình thanh xuân khép lại, một chặng đường mới mở ra...
+>
+> Vậy là sắp đến ngày tốt nghiệp rồi!
+>
+> Nếu hôm đó rảnh, ghé chụp với Phương Tuyền vài tấm hình nha.
+>
+> Mong gặp được mọi người.
 
-The proposed “Sunflower Reveal — Tap to Bloom” opens with a sunflower illustration and a “Tap to bloom” button. Activating it plays a short bloom animation and reveals the invitation. The interaction may initiate music playback when browser policy permits.
+The visible copy comes from `siteContent.invitationSupporting`, `invitationOpening`, `invitationDetails`, and `invitationClosing`.
 
-Future implementation requirements: keep the interaction lightweight; prefer CSS animation and native React over heavy animation libraries; support keyboard activation; respect `prefers-reduced-motion`; never block access to the invitation if animation fails; and do not require visitor details or login.
+### Event Details / Google Maps
 
-## 6. Music and map requirements
+The section heading is `SAVE THE DATE`. It displays the event date, time, university, venue address, and a contact link for Phương Tuyền. The contact link uses the `tel:` URL from `event.contact.tel`.
 
-### Music
+`VenueMapPreview.tsx` renders a responsive interactive iframe when `event.mapEmbedUrl` is an HTTPS `www.google.com/maps/embed` URL. If the configured value does not pass that check, it shows a simple fallback and the directions link from `event.directionsUrl`. The currently configured map embed is present; the fallback is not displayed for that configuration.
 
-Background music is a planned feature. Use one looping track, preferably enabled by default. Attempt playback where browser policies permit; use the reveal interaction as a user gesture to initiate playback when needed. A small, unobtrusive speaker icon toggles mute without visible “Sound on” or “Sound off” text. Do not report playback as active when autoplay is blocked. Audible autoplay is subject to browser restrictions and cannot be guaranteed before user interaction. Keep audio state management simple.
+### Closing Message
 
-The actual audio file is pending confirmation.
+The final section displays:
 
-### Google Maps
+> Cảm ơn vì đã trở thành một mảnh ghép trong thanh xuân của Phương Tuyền.
+>
+> *Our day, your presence, endless memories*
 
-Use the confirmed venue navigation link for directions. Obtain a real iframe embed URL via Google Maps Share → Embed a map before implementation. Keep the preview responsive on phones and desktop and provide a visible navigation fallback if the iframe cannot load. Do not invent embed URLs.
+The section includes a decorative sunflower bouquet. The English line is rendered without a heart glyph in the current content data.
 
-## 7. Language and content management
+## 6. Motion and Animations
 
-The site has one content version, primarily in Vietnamese. Approved English design phrases may appear, including “You're Invited!”, “A New Chapter Begins”, and “Our day, your presence, endless memories”. Content should remain centrally manageable in the future, preferably through small `content.ts` and `event.ts` modules.
+- **Reveal:** `InvitationExperience.tsx` owns the `closed → blooming → open` state flow. CSS grows the plant over 1,800 ms and transitions from bud to flower. The main content appears after a 2,050 ms timer.
+- **Scroll reveals:** after opening, one `IntersectionObserver` watches elements marked `[data-reveal]` at a 0.12 threshold. CSS applies opacity and small transform transitions. Elements marked `data-reveal-motion="zoom"` use a zoom treatment; the map is marked `fade` and avoids positional or scale movement.
+- **Unsupported observer:** if `IntersectionObserver` is unavailable, reveal setup is skipped and content remains visible.
+- **Ambient petals:** `FloatingPetals.tsx` renders ten decorative petals. CSS keyframes animate them across the viewport without JavaScript timers or scroll listeners. The effect is hidden for reduced-motion users.
+- **Reduced motion:** the experience skips its opening delay when the preference is enabled. CSS also minimizes animation and transition durations, makes pending scroll reveals visible, and disables the ambient petals.
 
-Do not implement a language switcher, translation context, multiple language dictionaries, localized guest addressing, or personalized invitation messages.
+These are CSS and native browser effects; the project does not use an animation library.
 
-## 8. Technical architecture
+## 7. Audio Behavior
 
-Subject to the existing repository configuration, the preferred stack is:
+`MusicPlayer.tsx` uses a native `<audio>` element with the looping source in `event.audioSrc` (`/audio/grad-audio.mp3`). The sunflower activation handler calls `startFromGesture()` before starting the bloom timer, giving the browser a user-initiated playback request. Audio is not guaranteed to play; browsers may block playback, and the player handles a rejected `play()` promise or audio error by keeping its playing state false.
 
-- Next.js App Router
-- React
-- TypeScript
-- CSS with reusable design tokens
-- Next.js Image for the future portrait
-- Native browser APIs where appropriate
+The fixed speaker button lets the visitor pause or retry playback manually. Playback state follows the audio element’s play, pause, and error events. The track loops while playing. There is no repeated automatic retry after a visitor pauses it.
 
-Proposed future structure (not to be created in this documentation phase):
+## 8. Map and Contact
 
-```text
-src/
-  app/
-    page.tsx
-    layout.tsx
-    globals.css
-  components/
-    SunflowerReveal.tsx
-    HeroSection.tsx
-    InvitationNote.tsx
-    EventDetails.tsx
-    ClosingSection.tsx
-    MusicPlayer.tsx
-  data/
-    event.ts
-    content.ts
+- The embed and directions URL are configured in `src/data/event.ts` as `mapEmbedUrl` and `directionsUrl`.
+- `VenueMapPreview.tsx` validates the embed scheme, host, and `/maps/embed` path before rendering the iframe. The iframe has a descriptive title, lazy loading, strict-origin referrer policy, and full-screen support.
+- When the embed URL is invalid or absent, the component displays a fallback with a directions link. With the current valid embed configuration, the fallback is not rendered.
+- The contact data (`name`, `phone`, and `tel`) is in `event.contact`; the Date & Location section renders a clickable telephone link.
 
-public/
-  images/
-  audio/
+## 9. Architecture
+
+| Path | Responsibility |
+|---|---|
+| `src/app/page.tsx` | Composes the invitation at the root route. |
+| `src/app/layout.tsx` | Sets Vietnamese document language, fonts, and page metadata. |
+| `src/app/globals.css` | Design tokens, responsive layout, illustration styling, reveal transitions, and reduced-motion rules. |
+| `src/components/invitation/InvitationExperience.tsx` | Owns reveal phase, reduced-motion opening behavior, scroll observer, and music-player control. |
+| `src/components/invitation/SunflowerReveal.tsx` | Accessible button and potted sunflower SVG. |
+| `src/components/invitation/InvitationSections.tsx` | Renders the four main content sections. |
+| `src/components/invitation/SunflowerIllustration.tsx` | Reusable inline SVG botanical variants. |
+| `src/components/invitation/FloatingPetals.tsx` | Decorative, aria-hidden ambient petals. |
+| `src/components/invitation/MusicPlayer.tsx` | Native looping audio and speaker control. |
+| `src/components/invitation/VenueMapPreview.tsx` | Google Maps iframe validation and fallback. |
+| `src/data/content.ts` | Vietnamese interface and invitation text. |
+| `src/data/event.ts` | Graduate, event, contact, map, portrait, and audio values. |
+
+The application uses Next.js 16, React 19, TypeScript, Tailwind CSS 4, custom CSS, and native browser APIs. No backend or state-management library is present.
+
+## 10. Responsive Design and Accessibility
+
+The stylesheet’s main responsive breakpoint is 768 px: mobile rules apply through 767 px, and desktop grid layouts apply from 768 px. The hero stacks on mobile and uses two columns at desktop widths. The invitation stacks its illustration and text on mobile. The map is full-width within its column and has a reduced fixed responsive height on mobile.
+
+Implemented accessibility details include:
+
+- The reveal is a real button with an accessible name, visible keyboard focus styling, and disabled state while blooming.
+- Main content is inert and hidden from assistive technology until the reveal opens; focus moves to the main element after opening.
+- Event sections use semantic headings, a `time` element, and a telephone anchor.
+- SVG ornaments and ambient petals are hidden from assistive technology.
+- Reduced-motion preferences bypass the opening delay and suppress continuous ambient motion.
+
+These are implementation notes, not a claim that every viewport or assistive technology combination has been manually audited.
+
+## 11. Configuration and Maintenance
+
+- **Event, contact, portrait, audio, map:** edit `src/data/event.ts`.
+- **Invitation and interface copy:** edit `src/data/content.ts`.
+- **Portrait:** replace `public/img/pt-portrait.jpg` and update `event.portraitSrc` if the path changes. The current portrait is configured and present.
+- **Audio:** replace `public/audio/grad-audio.mp3` and update `event.audioSrc` if the path changes.
+- **Map:** update `event.mapEmbedUrl` with a real Google Maps embed URL and `event.directionsUrl` with its visitor navigation link. Do not use the short navigation URL as an iframe source.
+- **Design and responsive behavior:** edit `src/app/globals.css`; illustration geometry and variants are in `SunflowerIllustration.tsx` and `SunflowerReveal.tsx`.
+
+## 12. Development and Verification
+
+The repository scripts are defined in `package.json`:
+
+```sh
+npm ci
+npm run dev
+npm run lint
+npx tsc --noEmit
+npm run build
+npm run start
 ```
 
-The repository currently has a Next.js 16 App Router, React 19, and TypeScript foundation. Later migration or simplification must be reviewed against the existing source and preserve unrelated user work. Do not remove existing source code as part of Phase 1. Do not carry forward guest slugs or private routes, guest-specific content, RSVP/Formspree behavior, personalization or guest environment variables, translation providers, the envelope interaction, or unnecessary middleware/proxy logic.
+The development and build scripts explicitly use Webpack. `npm run lint` runs ESLint; TypeScript can be checked separately with `npx tsc --noEmit`. `npm run start` serves a completed production build.
 
-## 9. Functional and non-functional requirements
+Manual browser verification should cover the opening by keyboard and pointer, reduced-motion behavior, audio start and manual retry/pause, section content, click-to-call, the embedded map and its controls, and mobile/desktop layouts. Automated lint, type, and build commands do not replace visual or interactive browser review. Record browser verification only when it has actually been performed.
 
-### Functional
+## 13. Deployment
 
-- One public invitation URL serves all visitors.
-- Present the four planned sections and approved content.
-- Show event date, time, venue, program, and class clearly.
-- Provide a responsive Google Maps embed and working venue navigation fallback.
-- Provide one looping music track with a discreet mute/unmute control; reflect actual playback state.
-- If approved, the sunflower reveal is keyboard operable, does not gate invitation access, and can start audio when permitted.
+The repository defines a standard Next.js production build and start workflow (`npm run build`, then `npm run start`). `next.config.ts` enables Cache Components and Partial Prerendering and retains a CSS loader configuration for Turbopack; the package scripts currently invoke the Webpack builder. There is no provider-specific deployment workflow or project deployment configuration in the repository. No application environment variables are required by the current source.
 
-### Non-functional
+## 14. Current Scope and Limitations
 
-- Mobile-first, responsive layout with readable hierarchy and generous whitespace.
-- Bright, warm color use without excessive decoration or repeated information.
-- Lightweight interactions, native controls/APIs where appropriate, and support for reduced motion.
-- Maintainable, centrally managed event and content data.
-- No private guest records, credentials, or unrelated personal data in public documentation or source configuration.
-
-## 10. Out of scope
-
-- Guest-specific routes, slugs, personalization, or private guest management
-- RSVP, attendance collection, Formspree, or any contact form
-- Backend or database requirement
-- VI/EN switcher, translation provider, language dictionaries, or guest-specific pronouns
-- Login, authentication, or guest data collection
-- Envelope opening interaction
-- Heavy animation or audio state-management libraries
-- Unnecessary middleware or proxy logic
-- Implementation, deployment, or removal of existing source code in Phase 1
-
-## 11. Pending assets and open decisions
-
-### Missing inputs
-
-- Real graduation portrait (pending; no file should be assumed available)
-- Confirmed audio file (pending)
-- Valid Google Maps Share → Embed a map iframe URL (required before map implementation)
-
-### Decisions for later approval
-
-- Final approval or rejection of Sunflower Reveal and its visual behavior
-- Final typography and responsive layout details
-- Final content review and any visual refinements
-- Whether the proposed “music enabled by default” preference can be met within browser autoplay behavior; audible playback before user interaction is not guaranteed
-
-## 12. Implementation phases
-
-1. **Phase 1 — Documentation (current):** Update this specification and README only.
-2. **Phase 2 — Design approval:** Finalize opening interaction, typography, content, and responsive layout.
-3. **Phase 3 — Core implementation:** Implement the four sections, data structures, responsive styles, and map.
-4. **Phase 4 — Interaction and assets:** Add the portrait, Sunflower Reveal if approved, music, and visual refinements.
-5. **Phase 5 — QA and deployment:** Verify desktop/mobile layouts, navigation, map, audio behavior, and production build before deployment.
-
-Phases 2–5 are not part of the current task.
-
-## 13. Acceptance criteria
-
-### Phase 1 documentation acceptance
-
-- `README.md` and this specification describe Sunny Graduation and accurately identify the current planning status.
-- Confirmed event details, approved content, design requirements, proposed interaction, music/map requirements, architecture, scope exclusions, open inputs, phases, and acceptance criteria are documented.
-- Proposed features and missing assets/configuration are clearly distinguished from confirmed requirements.
-- No private guest records, prior guest names/links, credentials, environment values, personal contact details, or unrelated personal data are added.
-- No implementation files are changed in this phase.
-
-### Future website acceptance
-
-- One public URL serves a concise, primarily Vietnamese invitation with the four planned sections.
-- Event details match the confirmed date, time zone, venue, program, and class.
-- Responsive map uses a genuine Google-provided embed URL, with visible working navigation fallback.
-- A single looping audio track has an unobtrusive mute control and accurately reflects playback limitations.
-- If approved, the reveal supports keyboard use and reduced-motion preferences and never blocks invitation access.
-- No RSVP, guest personalization, login, or private guest management is present.
-- Desktop/mobile layouts, navigation, map, audio behavior, and production build are verified before deployment.
+- One public route at `/`; the invitation is the same for all visitors.
+- No backend, database, personalized guest links, RSVP, authentication, or language switching.
+- Music playback depends on browser policy and user activation; playback cannot be guaranteed.
+- The map fallback is shown when the configured embed URL fails the component’s URL validation. The component does not detect a later iframe network/render failure.
+- There is no provider-specific deployment setup in this repository.

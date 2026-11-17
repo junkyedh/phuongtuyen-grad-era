@@ -1,32 +1,75 @@
-# Sunny Graduation
+# Phương Tuyền Graduation Invitation
 
-Sunny Graduation is a planned public graduation invitation for Trần Nguyễn Phương Tuyền, built around the concept **A New Chapter Begins**. The site will share one general invitation URL with all guests.
+## Project Overview
 
-## Planned experience
+A public graduation invitation for Trần Nguyễn Phương Tuyền, styled around the **Sunny Graduation / Sunflower Editorial** concept and “A New Chapter Begins” theme. A single public route (`/`) serves every visitor. The experience opens with an interactive potted sunflower, then presents the graduate, invitation, event details, and closing message.
 
-- A warm, youthful, mobile-first design with sunflower and graduation details
-- Four sections: Hero, A Little Invitation, Event Details, and Closing
-- A responsive Google Maps embed with a navigation fallback
-- A single looping background music track with a discreet mute control
-- A possible “Sunflower Reveal — Tap to Bloom” opening interaction, pending design approval
+## Tech Stack
 
-These are planned features; they are not represented as implemented.
+- Next.js 16 App Router and React 19
+- TypeScript
+- Tailwind CSS 4 with project-specific CSS in `src/app/globals.css`
+- `next/font/google` for Be Vietnam Pro and Barlow Condensed
+- Native browser APIs for audio, reduced-motion preferences, and scroll reveals
 
-## Planned technology
+## Getting Started
 
-The existing repository is configured with Next.js 16 App Router, React 19, and TypeScript. The planned implementation will use the existing stack, reusable CSS design tokens, Next.js Image for the future portrait, and native browser APIs where appropriate. Be Vietnam Pro is the preferred primary font, subject to the final design review.
-
-## Local development
-
-Requirements: Node.js and npm. Install the dependencies recorded by the repository lockfile and start the existing development server:
+Prerequisites: Node.js and npm.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Then open `http://localhost:3000`. The repository currently also defines `npm run lint`, `npm run build`, and `npm run start`. The current application remains the pre-existing project foundation; the Sunny Graduation experience has not been implemented yet.
+The development server uses the repository’s configured Webpack mode. Open `http://localhost:3000`.
 
-## Project status
+Available project commands:
 
-**Phase 1 — Documentation / Planning.** Design approval, implementation, QA, and deployment remain future phases. See [docs/PROJECT_SPEC.md](docs/PROJECT_SPEC.md) for confirmed requirements, proposed decisions, pending inputs, phases, and acceptance criteria.
+```sh
+npm run lint
+npx tsc --noEmit
+npm run build
+npm run start
+```
+
+`npm run start` serves the production build and should be run after `npm run build`.
+
+## Project Structure
+
+```text
+src/
+  app/                         App Router page, metadata, and global styles
+  components/invitation/       Reveal, invitation sections, music, map, and decorations
+  data/                        Event details and Vietnamese UI copy
+public/
+  audio/grad-audio.mp3         Looping background track
+  img/pt-portrait.jpg          Graduate portrait
+docs/PROJECT_SPEC.md           Detailed product and implementation reference
+```
+
+## Main Features
+
+- Keyboard-accessible sunflower reveal: a potted plant grows from a closed bud into a flower before opening the invitation.
+- Four responsive content sections: Hero, Personal Invitation, Event Details, and Closing.
+- Reduced-motion support, scroll-based content reveals, and subtle ambient falling petals.
+- Looping background music with a speaker control for pausing and retrying playback.
+- Graduate portrait rendered with `next/image`.
+- Responsive, interactive Google Maps iframe with a directions fallback when the configured embed URL is invalid.
+- Click-to-call contact link for Phương Tuyền.
+
+## Content and Asset Management
+
+- Update graduate, venue, date/time, contact, portrait, audio, and map URLs in `src/data/event.ts`.
+- Update invitation and interface copy in `src/data/content.ts`.
+- Replace the portrait at `public/img/pt-portrait.jpg` and keep `event.portraitSrc` in sync.
+- Replace the looping track at `public/audio/grad-audio.mp3` and keep `event.audioSrc` in sync.
+- Adjust color tokens, layout, typography, and animations in `src/app/globals.css`.
+- The reusable sunflower illustrations are in `src/components/invitation/SunflowerIllustration.tsx`.
+
+## Deployment
+
+The repository has no provider-specific deployment workflow or project deployment settings. For a standard Next.js Node deployment, build with `npm run build` and run the result with `npm run start`. The build and development scripts explicitly use Webpack; `next.config.ts` also contains the existing cache-components, partial-prefetching, and CSS Turbopack-loader settings. No application environment variables are required by the current source.
+
+## Project Scope
+
+This is a single-route public invitation. It has no backend, personalized guest links, RSVP, authentication, or language switcher. See [docs/PROJECT_SPEC.md](docs/PROJECT_SPEC.md) for the detailed current behavior and maintenance notes.
