@@ -1,88 +1,223 @@
-# Hanh's Grad Era — Project Specification
+# Sunny Graduation — Project Specification
 
-## 1. Project Overview
+**Project status: Phase 1 — Documentation / Planning**
 
-**Purpose:** A personalized invitation for a graduation celebration, with bilingual content and a single attendance and optional-message form.
+This document is the active specification for the Sunny Graduation project. It distinguishes confirmed requirements from a proposed opening interaction and from assets/configuration that have not yet been supplied. No implementation is claimed by this document.
 
-**Stack:** Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4, project CSS, and Formspree. The project uses `next/font/google` for Barlow Condensed and Be Vietnam Pro.
+## 1. Project overview
 
-**Architecture:** Server code resolves event and guest data and composes each invitation. Client components handle the envelope, language state, music controls, localized sections, and form interaction. There is no application-owned API or database for replies.
+- **Project name:** Sunny Graduation
+- **Concept:** A New Chapter Begins
+- **Graduate:** Trần Nguyễn Phương Tuyền
+**Purpose:** A public, general graduation invitation. One shareable URL serves all guests.
 
-## 2. Application Structure
+The website is a separate project with a visual concept and scope distinct from its existing technical foundation. It does not need guest-specific routing, guest management, RSVP, or a backend.
 
-- `src/app/` contains the root layout, neutral root page, not-found page, personalized `[slug]` route, and global CSS.
-- `src/app/[slug]/page.tsx` resolves a guest on the server, calls `notFound()` for an unknown slug, and provides static route parameters from the configured guest list.
-- `src/components/invitation/InvitationPage.tsx` composes the invitation from server-resolved guest and event data.
-- `InvitationExperience.tsx` is the client shell for opening state, language, and audio. `EnvelopeIntro.tsx` renders the envelope interaction.
-- `InvitationSections.tsx` renders the cover, personal letter, event, accounting decoration, and location/contact sections using localized copy.
-- `GraduationWishForm.tsx` handles attendance, the optional note, validation, and the Formspree request. `MusicPlayer.tsx` and `VenueMapPreview.tsx` provide audio and map UI.
-- `src/data/content.ts`, `event.ts`, `guests.ts`, and `src/types/invitation.ts` define copy, event configuration, server-side guest lookup, and shared guest types.
+## 2. Confirmed event details
 
-## 3. Invitation Experience
+- **University:** Trường Đại học Bách khoa – Đại học Quốc gia TP.HCM (HCMUT)
+- **Program:** Kỹ thuật Hệ thống công nghiệp
+- **Class:** ISE K22
+- **Date:** Friday, November 27, 2026
+- **Time:** 15:00–17:00, Asia/Ho_Chi_Minh
+- **Venue:** 268 Lý Thường Kiệt, Phường Diên Hồng (Quận 10 cũ), TP.HCM
+- **Google Maps navigation link:** [Open the venue in Google Maps](https://maps.app.goo.gl/oxtH9sgLVwcthiY2A?g_st=iz)
 
-The invitation opens from a native `details`/`summary` envelope control. The client shell runs the opening transition and then reveals the invitation content. The page contains a cover, personalized letter, date and photo-session time, location/map and configured contact links, and the attendance form. The configured time is the guest meet-up/photo session; it is not identified as a ceremony schedule.
+The short link above is for visitor navigation. It is not an embeddable map URL.
 
-The form presents `attending` and `not_attending` choices. A disclosure opens one optional message textarea. Empty messages are allowed; nonempty trimmed messages are limited to 5–500 Unicode code points. The form reports unavailable, sending, success, failure, and rate-limit states.
+## 3. Design concept and visual system
 
-## 4. Localization
+The visual direction is sunny, youthful, cute, clean, and warm. The layout should be mobile-first, responsive, bright without becoming visually overwhelming, and use generous whitespace, short content, minimal typography, and a limited number of hand-drawn sunflower and graduation decorations.
 
-Vietnamese is the initial language; English and Vietnamese copy are selected by the in-page language switch. Language selection is held in React state for the mounted invitation and is not persisted across reloads. Switching language does not navigate to another route.
+| Token | Color |
+|---|---|
+| Ivory | `#FFF9EC` |
+| Sunshine Yellow | `#FFCB54` |
+| Honey Yellow | `#EAAA25` |
+| Beige | `#EBDCC3` |
+| Warm Brown | `#744B25` |
 
-Copy is centralized in `src/data/content.ts`. Guest addressing is stored in guest data and selects the Vietnamese honorific. English and Vietnamese custom invitation messages can override generated messages. Event names and date formatting use the current language where implemented.
+Be Vietnam Pro is the preferred primary font. Reuse existing assets or components only when they suit this concept. The real graduation portrait is pending and must not be represented as an existing asset.
 
-## 5. Guest Personalization
+## 4. Page structure and approved copy
 
-The `Guest` type includes a slug, name, display name, relationship, optional English and Vietnamese custom messages, and optional addressing. `src/data/guests.ts` is server-only: it combines the built-in demo entries with records parsed from `PRIVATE_GUESTS_JSON`, validates required fields, and rejects duplicate slugs.
+The planned page has four main sections. Keep each section focused and avoid repeating details already presented elsewhere.
 
-The `[slug]` route resolves one record and passes only that guest’s invitation values to the rendered page. Personalized route parameters are generated from the available records. Unknown slugs use the not-found page. Custom messages take precedence over generated messages for their language.
+### Section 1 — Hero
 
-An invitation URL is not authentication. Anyone with a link can view that invitation and submit its contextual guest fields. Search-engine no-index metadata is not access control. Because configured routes are statically generated, guest data used for a production build can also be reflected in generated pages and hosting output; use an appropriately private repository and deployment configuration.
+Approved copy:
 
-## 6. Form Submission
+- `YOU'RE INVITED!`
+- `LỄ TỐT NGHIỆP`
+- `Trần Nguyễn Phương Tuyền`
 
-The browser sends one `FormData` POST to Formspree using `NEXT_PUBLIC_FORMSPREE_FORM_ID`. Fields are `guest_slug`, `guest_display_name`, `attendance`, and `message` (trimmed, or empty). Attendance values are `attending` and `not_attending`. A submission lock prevents duplicate in-flight submits; HTTP 429 has a separate rate-limit state. The request is disabled when the public form identifier is absent or invalid.
+Use the future graduation portrait as the primary visual when supplied. Keep the opening compact and easy to read. Do not place long paragraphs, the full schedule, or venue details here.
 
-The Formspree identifier is a public client-side configuration value, not a private credential. The form does not authenticate the guest or guarantee one response per invitation. Do not use real submissions for routine verification.
+### Section 2 — A Little Invitation
 
-## 7. Media and Visual System
+Proposed approved Vietnamese copy:
 
-The visual direction is an editorial paper invitation with cream, ink, cherry, cobalt, blush, and butter colors defined in `src/app/globals.css`. Barlow Condensed is used for display typography; Be Vietnam Pro supports body copy and Vietnamese text. The layout adapts through CSS breakpoints, with Vietnamese-specific sizing adjustments.
+> Vậy là sắp đến ngày tốt nghiệp rồi! Nếu hôm đó rảnh, ghé chụp cùng Tuyền vài tấm hình nha. Có mọi người ở đó chắc chắn sẽ vui hơn nhiều!
 
-Music uses one looping audio element for `/audio/grad-theme.mp3`; the control is rendered when that asset is available. Playback is attempted from the envelope-opening gesture when enabled, and the user can toggle it. Blocked and unavailable playback have UI states.
+The tone should feel natural and personal, not formal, excessively poetic, or promotional. It addresses a general audience and needs no guest-specific pronouns. Do not add long paragraphs or repeat graduation details.
 
-The envelope and section reveals use CSS transitions and `IntersectionObserver`. Reduced-motion preferences bypass or disable motion. The envelope has keyboard-operable summary semantics; the interface also uses labels, status announcements, and focus handling in the form and opening flow.
+### Section 3 — Event Details
 
-## 8. Event Configuration
+Clearly display:
 
-`src/data/event.ts` is the source for event date, time zone, photo-session interval, venue, building, map coordinates/embed, and contact records. `VenueMapPreview.tsx` validates the configured Google Maps embed URL and falls back to its existing approved embed URL. Contact buttons use configured telephone links. The location section currently computes a directions URL, but the map preview component does not render a separate directions action.
+- Friday, November 27, 2026
+- 15:00–17:00
+- Trường Đại học Bách khoa – ĐHQG TP.HCM
+- 268 Lý Thường Kiệt, Phường Diên Hồng, TP.HCM
+- Kỹ thuật Hệ thống công nghiệp · ISE K22
 
-Contact names and telephone values are displayed by the application. Confirm their intended public use before deploying the invitation.
+Include a responsive, real Google Maps iframe preview and a working navigation action. The iframe `src` must use a valid URL obtained from Google Maps **Share → Embed a map**. Do not fabricate an embed URL or use the supplied `maps.app.goo.gl` navigation short link as its source. If the embed URL is unavailable, treat it as required configuration input and retain a visible navigation fallback in case the iframe fails. Avoid duplicate navigation buttons when the embedded map already provides the needed interaction.
 
-## 9. Development and Deployment
+### Section 4 — Closing
 
-Install the lockfile dependencies with `npm ci`. Configure `PRIVATE_GUESTS_JSON` and `NEXT_PUBLIC_FORMSPREE_FORM_ID` in `.env.local` for local work. Keep real values out of Git. `PRIVATE_GUESTS_JSON` must contain the server-side guest records required at build time for personalized static routes.
+Approved copy:
 
-Available package scripts are `npm run dev`, `npm run lint`, `npm run build`, and `npm run start`. TypeScript can be checked with `npx tsc --noEmit`.
+> Our day, your presence, endless memories ♡
 
-The app is suitable for Vercel hosting, but deployment configuration and production behavior are not verified by this specification. Configure environment variables for the build/runtime context and review the privacy implications of generated personalized routes before deployment.
+> Cùng nhau lưu giữ một ngày thật đáng nhớ.
 
-## 10. Privacy and Security
+This is the final section. Keep it minimal, with a subtle sunflower or graduation illustration. Do not repeat the full schedule, graduate name, university, or venue. Do not include an RSVP or contact form.
 
-- `/docs/PRIVATE_GUESTS_51.json`, `/docs/PRIVATE_GUESTS_ENV_LINE.txt`, `.env.local`, and `/guest-links.txt` are ignored by Git. Private guest records belong in restricted local or deployment configuration, not tracked documentation or source.
-- `PRIVATE_GUESTS_JSON` is read by server-only guest lookup. The public-prefixed Formspree identifier is intentionally available to the browser; do not place credentials in public-prefixed variables.
-- Personalized links are bearer links, not proof of identity. No-index metadata does not make a route private.
-- Real guest routes are included by static route generation. Treat generated output, deployment artifacts, and the configured contact details as privacy-sensitive.
-- Historical Git commits may retain information even after documentation is removed from the current tree. Removing a file does not erase its history.
+## 5. Proposed opening interaction — Sunflower Reveal
 
-## 11. Verification Checklist
+**Status: Recommended, pending final design approval.** This is a concept for design review, not a finalized UI decision.
 
-Run and review these checks for a release; this checklist does not claim they have passed:
+The proposed “Sunflower Reveal — Tap to Bloom” opens with a sunflower illustration and a “Tap to bloom” button. Activating it plays a short bloom animation and reveals the invitation. The interaction may initiate music playback when browser policy permits.
 
-- [ ] `npx tsc --noEmit`
-- [ ] `npm run lint`
-- [ ] `npm run build` with required environment configuration and font access
-- [ ] Personalized route resolution, unknown-slug not-found behavior, and isolation of each guest’s rendered content
-- [ ] Vietnamese and English copy, addressing, and language switching
-- [ ] Mobile and desktop layouts, keyboard operation, and reduced-motion behavior
-- [ ] Map preview, configured contact links, and available/missing audio behavior
-- [ ] Form validation and state handling; verify provider delivery only with an approved non-production procedure
+Future implementation requirements: keep the interaction lightweight; prefer CSS animation and native React over heavy animation libraries; support keyboard activation; respect `prefers-reduced-motion`; never block access to the invitation if animation fails; and do not require visitor details or login.
+
+## 6. Music and map requirements
+
+### Music
+
+Background music is a planned feature. Use one looping track, preferably enabled by default. Attempt playback where browser policies permit; use the reveal interaction as a user gesture to initiate playback when needed. A small, unobtrusive speaker icon toggles mute without visible “Sound on” or “Sound off” text. Do not report playback as active when autoplay is blocked. Audible autoplay is subject to browser restrictions and cannot be guaranteed before user interaction. Keep audio state management simple.
+
+The actual audio file is pending confirmation.
+
+### Google Maps
+
+Use the confirmed venue navigation link for directions. Obtain a real iframe embed URL via Google Maps Share → Embed a map before implementation. Keep the preview responsive on phones and desktop and provide a visible navigation fallback if the iframe cannot load. Do not invent embed URLs.
+
+## 7. Language and content management
+
+The site has one content version, primarily in Vietnamese. Approved English design phrases may appear, including “You're Invited!”, “A New Chapter Begins”, and “Our day, your presence, endless memories”. Content should remain centrally manageable in the future, preferably through small `content.ts` and `event.ts` modules.
+
+Do not implement a language switcher, translation context, multiple language dictionaries, localized guest addressing, or personalized invitation messages.
+
+## 8. Technical architecture
+
+Subject to the existing repository configuration, the preferred stack is:
+
+- Next.js App Router
+- React
+- TypeScript
+- CSS with reusable design tokens
+- Next.js Image for the future portrait
+- Native browser APIs where appropriate
+
+Proposed future structure (not to be created in this documentation phase):
+
+```text
+src/
+  app/
+    page.tsx
+    layout.tsx
+    globals.css
+  components/
+    SunflowerReveal.tsx
+    HeroSection.tsx
+    InvitationNote.tsx
+    EventDetails.tsx
+    ClosingSection.tsx
+    MusicPlayer.tsx
+  data/
+    event.ts
+    content.ts
+
+public/
+  images/
+  audio/
+```
+
+The repository currently has a Next.js 16 App Router, React 19, and TypeScript foundation. Later migration or simplification must be reviewed against the existing source and preserve unrelated user work. Do not remove existing source code as part of Phase 1. Do not carry forward guest slugs or private routes, guest-specific content, RSVP/Formspree behavior, personalization or guest environment variables, translation providers, the envelope interaction, or unnecessary middleware/proxy logic.
+
+## 9. Functional and non-functional requirements
+
+### Functional
+
+- One public invitation URL serves all visitors.
+- Present the four planned sections and approved content.
+- Show event date, time, venue, program, and class clearly.
+- Provide a responsive Google Maps embed and working venue navigation fallback.
+- Provide one looping music track with a discreet mute/unmute control; reflect actual playback state.
+- If approved, the sunflower reveal is keyboard operable, does not gate invitation access, and can start audio when permitted.
+
+### Non-functional
+
+- Mobile-first, responsive layout with readable hierarchy and generous whitespace.
+- Bright, warm color use without excessive decoration or repeated information.
+- Lightweight interactions, native controls/APIs where appropriate, and support for reduced motion.
+- Maintainable, centrally managed event and content data.
+- No private guest records, credentials, or unrelated personal data in public documentation or source configuration.
+
+## 10. Out of scope
+
+- Guest-specific routes, slugs, personalization, or private guest management
+- RSVP, attendance collection, Formspree, or any contact form
+- Backend or database requirement
+- VI/EN switcher, translation provider, language dictionaries, or guest-specific pronouns
+- Login, authentication, or guest data collection
+- Envelope opening interaction
+- Heavy animation or audio state-management libraries
+- Unnecessary middleware or proxy logic
+- Implementation, deployment, or removal of existing source code in Phase 1
+
+## 11. Pending assets and open decisions
+
+### Missing inputs
+
+- Real graduation portrait (pending; no file should be assumed available)
+- Confirmed audio file (pending)
+- Valid Google Maps Share → Embed a map iframe URL (required before map implementation)
+
+### Decisions for later approval
+
+- Final approval or rejection of Sunflower Reveal and its visual behavior
+- Final typography and responsive layout details
+- Final content review and any visual refinements
+- Whether the proposed “music enabled by default” preference can be met within browser autoplay behavior; audible playback before user interaction is not guaranteed
+
+## 12. Implementation phases
+
+1. **Phase 1 — Documentation (current):** Update this specification and README only.
+2. **Phase 2 — Design approval:** Finalize opening interaction, typography, content, and responsive layout.
+3. **Phase 3 — Core implementation:** Implement the four sections, data structures, responsive styles, and map.
+4. **Phase 4 — Interaction and assets:** Add the portrait, Sunflower Reveal if approved, music, and visual refinements.
+5. **Phase 5 — QA and deployment:** Verify desktop/mobile layouts, navigation, map, audio behavior, and production build before deployment.
+
+Phases 2–5 are not part of the current task.
+
+## 13. Acceptance criteria
+
+### Phase 1 documentation acceptance
+
+- `README.md` and this specification describe Sunny Graduation and accurately identify the current planning status.
+- Confirmed event details, approved content, design requirements, proposed interaction, music/map requirements, architecture, scope exclusions, open inputs, phases, and acceptance criteria are documented.
+- Proposed features and missing assets/configuration are clearly distinguished from confirmed requirements.
+- No private guest records, prior guest names/links, credentials, environment values, personal contact details, or unrelated personal data are added.
+- No implementation files are changed in this phase.
+
+### Future website acceptance
+
+- One public URL serves a concise, primarily Vietnamese invitation with the four planned sections.
+- Event details match the confirmed date, time zone, venue, program, and class.
+- Responsive map uses a genuine Google-provided embed URL, with visible working navigation fallback.
+- A single looping audio track has an unobtrusive mute control and accurately reflects playback limitations.
+- If approved, the reveal supports keyboard use and reduced-motion preferences and never blocks invitation access.
+- No RSVP, guest personalization, login, or private guest management is present.
+- Desktop/mobile layouts, navigation, map, audio behavior, and production build are verified before deployment.
