@@ -11,11 +11,7 @@ export function HeroSection() {
       <div className="hero-copy" data-reveal>
         <p className="eyebrow hero-eyebrow">{siteContent.heroEyebrow}</p>
         <h1 id="hero-title" className="hero-title">
-          {siteContent.heroTitle.map((line) => (
-            <span className="hero-title-line" key={line}>
-              {line}
-            </span>
-          ))}
+          {siteContent.heroTitle}
         </h1>
         <p className="hero-name" aria-label={graduateName.join(' ')}>
           <span>{graduateName.slice(0, 2).join(' ')}</span>
@@ -128,9 +124,7 @@ export function ClosingSection() {
     <section className="closing-section section-wrap" aria-label="Lời kết" data-reveal>
       <SunflowerIllustration className="closing-bouquet" variant="bouquet" />
       <p>{siteContent.closingMessage}</p>
-      <p className="closing-english">
-        {siteContent.closingEnglish}
-      </p>
+      <p className="closing-english">{siteContent.closingEnglish}</p>
     </section>
   );
 }

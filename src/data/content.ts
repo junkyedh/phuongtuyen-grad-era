@@ -5,7 +5,7 @@ export const siteContent = {
   revealSender: 'PHƯƠNG TUYỀN GỬI BẠN CHÚT NẮNG',
   revealAccessibleLabel: 'Chạm vào chậu hoa để hoa lớn lên, nở rộ và mở thiệp mời tốt nghiệp của Phương Tuyền',
   heroEyebrow: "YOU'RE INVITED!",
-  heroTitle: ['LỄ', 'TỐT NGHIỆP'],
+  heroTitle: 'LỄ TỐT NGHIỆP',
   portraitPlaceholder: 'Chân dung tốt nghiệp\nsẽ được cập nhật',
   invitationSupporting: 'Hành trình thanh xuân khép lại, một chặng\u00a0đường mới mở ra...',
   invitationOpening: 'Vậy là sắp đến ngày\u00a0tốt\u00a0nghiệp rồi!',

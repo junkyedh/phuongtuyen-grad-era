@@ -149,15 +149,29 @@ figure {
   background: var(--paper);
   color: var(--brown);
   cursor: pointer;
-  box-shadow: 0 0 0 6px #fffdf4, 0 0 0 7px #d8c59f,
-    11px 13px 0 #dfc184, 0 24px 50px #65432120;
-  transition: transform 220ms ease, box-shadow 220ms ease;
+  box-shadow:
+    0 0 0 6px #fffdf4,
+    0 0 0 7px #d8c59f,
+    11px 13px 0 #dfc184,
+    0 24px 50px #65432120;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
 }
 
-.sunflower-button:hover:not(:disabled) { transform: translateY(-3px); }
-.sunflower-button:focus-visible { outline: 3px solid var(--brown); outline-offset: 3px; }
-.sunflower-button:disabled { cursor: default; }
-.sunflower-reveal--blooming .sunflower-button { transform: scale(1.015); }
+.sunflower-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+}
+.sunflower-button:focus-visible {
+  outline: 3px solid var(--brown);
+  outline-offset: 3px;
+}
+.sunflower-button:disabled {
+  cursor: default;
+}
+.sunflower-reveal--blooming .sunflower-button {
+  transform: scale(1.015);
+}
 
 .sunflower-sender {
   max-width: 26ch;
@@ -184,13 +198,21 @@ figure {
   transform: scale(0.44);
 }
 .sunflower-reveal--blooming .sunflower-growth {
-  animation: plant-grow 1800ms cubic-bezier(.22,.65,.2,1) both;
+  animation: plant-grow 1800ms cubic-bezier(0.22, 0.65, 0.2, 1) both;
 }
 @keyframes plant-grow {
-  0% { transform: scale(.44); }
-  55% { transform: scale(.85); }
-  78% { transform: scale(1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.44);
+  }
+  55% {
+    transform: scale(0.85);
+  }
+  78% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .sunflower-stem {
@@ -205,7 +227,9 @@ figure {
   stroke-width: 1.8;
   stroke-linejoin: round;
 }
-.sunflower-leaf--right { fill: #a9cb7f; }
+.sunflower-leaf--right {
+  fill: #a9cb7f;
+}
 .sunflower-bud-core {
   fill: #ffc64e;
   stroke: #d9942b;
@@ -224,46 +248,122 @@ figure {
   stroke-width: 1.8;
   stroke-linejoin: round;
 }
-.sunflower-bud-vein { fill: none; stroke: #49723e; stroke-width: 1.3; }
-.sunflower-bud-head, .sunflower-open-head {
+.sunflower-bud-vein {
+  fill: none;
+  stroke: #49723e;
+  stroke-width: 1.3;
+}
+.sunflower-bud-head,
+.sunflower-open-head {
   transform-box: view-box;
   transform-origin: 130px 109px;
 }
-.sunflower-bud-head { opacity: 1; }
-.sunflower-open-head { opacity: 0; transform: scale(.12) rotate(-20deg); }
-.sunflower-reveal--blooming .sunflower-bud-head { animation: bud-to-flower 1800ms both; }
-.sunflower-reveal--blooming .sunflower-open-head { animation: flower-unfold 1800ms both; }
+.sunflower-bud-head {
+  opacity: 1;
+}
+.sunflower-open-head {
+  opacity: 0;
+  transform: scale(0.12) rotate(-20deg);
+}
+.sunflower-reveal--blooming .sunflower-bud-head {
+  animation: bud-to-flower 1800ms both;
+}
+.sunflower-reveal--blooming .sunflower-open-head {
+  animation: flower-unfold 1800ms both;
+}
 @keyframes bud-to-flower {
-  0%, 50% { opacity: 1; transform: scale(1); }
-  72% { opacity: 0; transform: scale(.64); }
-  100% { opacity: 0; transform: scale(.64); }
+  0%,
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  72% {
+    opacity: 0;
+    transform: scale(0.64);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.64);
+  }
 }
 @keyframes flower-unfold {
-  0%, 45% { opacity: 0; transform: scale(.12) rotate(-20deg); }
-  57% { opacity: .65; transform: scale(.52) rotate(-9deg); }
-  83% { opacity: 1; transform: scale(1.07) rotate(2deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0); }
+  0%,
+  45% {
+    opacity: 0;
+    transform: scale(0.12) rotate(-20deg);
+  }
+  57% {
+    opacity: 0.65;
+    transform: scale(0.52) rotate(-9deg);
+  }
+  83% {
+    opacity: 1;
+    transform: scale(1.07) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
 }
-.sunflower-outer-petals path { fill: #f5ad28; stroke: #da901b; stroke-width: .9; }
-.sunflower-inner-petals path { fill: #ffcf55; stroke: #e7a32c; stroke-width: .65; }
-.sunflower-center-outer { fill: #a36e35; }
-.sunflower-center { fill: #65401e; stroke: #4e2d15; stroke-width: 1.3; }
-.sunflower-seeds circle { fill: #e3b773; }
+.sunflower-outer-petals path {
+  fill: #f5ad28;
+  stroke: #da901b;
+  stroke-width: 0.9;
+}
+.sunflower-inner-petals path {
+  fill: #ffcf55;
+  stroke: #e7a32c;
+  stroke-width: 0.65;
+}
+.sunflower-center-outer {
+  fill: #a36e35;
+}
+.sunflower-center {
+  fill: #65401e;
+  stroke: #4e2d15;
+  stroke-width: 1.3;
+}
+.sunflower-seeds circle {
+  fill: #e3b773;
+}
 
-.sunflower-pot-shadow { fill: #b4926366; }
-.sunflower-pot-body { fill: #d68d5d; stroke: #ab6d44; stroke-width: 1.6; }
-.sunflower-pot-shade { fill: #bb774f; opacity: .45; }
-.sunflower-pot-rim { fill: #e8a36f; stroke: #a96b42; stroke-width: 1.6; }
-.sunflower-pot-detail { fill: none; stroke: #f7d2ae; stroke-width: 2; stroke-linecap: round; }
-.sunflower-pot-heart { fill: #fff1d4; }
+.sunflower-pot-shadow {
+  fill: #b4926366;
+}
+.sunflower-pot-body {
+  fill: #d68d5d;
+  stroke: #ab6d44;
+  stroke-width: 1.6;
+}
+.sunflower-pot-shade {
+  fill: #bb774f;
+  opacity: 0.45;
+}
+.sunflower-pot-rim {
+  fill: #e8a36f;
+  stroke: #a96b42;
+  stroke-width: 1.6;
+}
+.sunflower-pot-detail {
+  fill: none;
+  stroke: #f7d2ae;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.sunflower-pot-heart {
+  fill: #fff1d4;
+}
 
 .sunflower-label {
   font-size: 0.76rem;
   font-weight: 750;
-  letter-spacing: .13em;
+  letter-spacing: 0.13em;
   text-align: center;
 }
-.sunflower-reveal--blooming .sunflower-label { opacity: .65; transition: opacity 350ms ease; }
+.sunflower-reveal--blooming .sunflower-label {
+  opacity: 0.65;
+  transition: opacity 350ms ease;
+}
 
 /* Section 1: hero */
 .hero {
@@ -299,16 +399,10 @@ figure {
   line-height: 1.08;
 }
 
-.hero-title-line {
-  display: block;
-  white-space: nowrap;
-  padding-top: .065em; /* Vietnamese accents must not crowd the line above. */
-}
-
 .hero-name {
   display: flex;
   flex-wrap: wrap;
-  column-gap: .32em;
+  column-gap: 0.32em;
   width: 100%;
   margin-top: clamp(18px, 2vw, 28px);
   color: #8b5e20;
@@ -318,8 +412,9 @@ figure {
   line-height: 1.35;
 }
 
-/* Wrap only between TRẦN NGUYỄN / PHƯƠNG TUYỀN, never within either group. */
-.hero-name span { white-space: nowrap; }
+.hero-name span {
+  white-space: nowrap;
+}
 
 .hero-program,
 .hero-university {
@@ -424,13 +519,17 @@ figure {
 .invitation-editorial {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
   align-items: center;
   gap: clamp(34px, 6vw, 94px);
   width: min(100%, 1030px);
   min-height: 310px;
 }
-.invitation-art { display: grid; place-items: center; min-width: 0; }
+.invitation-art {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
 .invitation-flower {
   display: block;
   width: clamp(145px, 17vw, 215px);
@@ -438,13 +537,16 @@ figure {
   height: auto;
   filter: drop-shadow(0 5px 4px #65432111);
 }
-.invitation-copy { min-width: 0; width: 100%; }
+.invitation-copy {
+  min-width: 0;
+  width: 100%;
+}
 .invitation-supporting {
   margin-bottom: clamp(22px, 2.6vw, 30px);
   padding-bottom: 16px;
   border-bottom: 1px solid #9a753b60;
   color: var(--brown-soft);
-  font-size: clamp(.9rem, 1.4vw, 1rem);
+  font-size: clamp(0.9rem, 1.4vw, 1rem);
   font-style: italic;
   line-height: 1.8;
   text-wrap: pretty;
@@ -456,45 +558,98 @@ figure {
   font-weight: 500;
   line-height: 1.8;
 }
-.invitation-message p { text-wrap: pretty; }
-.invitation-message p + p { margin-top: 14px; }
+.invitation-message p {
+  text-wrap: pretty;
+}
+.invitation-message p + p {
+  margin-top: 14px;
+}
 .invitation-message .invitation-opening {
   font-size: clamp(1.55rem, 2.5vw, 2.25rem);
   font-weight: 800;
   line-height: 1.32;
   text-wrap: pretty;
 }
-.invitation-message .invitation-details { overflow-wrap: normal; }
-.invitation-message .invitation-closing { color: #8b5e20; font-weight: 750; }
+.invitation-message .invitation-details {
+  overflow-wrap: normal;
+}
+.invitation-message .invitation-closing {
+  color: #8b5e20;
+  font-weight: 750;
+}
 
 /* Softer, hand-drawn petal silhouettes shared across four distinct flower variants. */
-.botanical-outer-petals path { fill: #efaa2d; stroke: #d9982b; stroke-width: .8; }
-.botanical-inner-petals path { fill: #ffd36b; stroke: #e8ad43; stroke-width: .6; }
+.botanical-outer-petals path {
+  fill: #efaa2d;
+  stroke: #d9982b;
+  stroke-width: 0.8;
+}
+.botanical-inner-petals path {
+  fill: #ffd36b;
+  stroke: #e8ad43;
+  stroke-width: 0.6;
+}
 /* Event section uses a small standalone head, not the invitation's stem flower. */
-.botanical-accent-petals path { fill: #ffd47e; stroke: #dcaa5b; stroke-width: 1.4; }
-.botanical-accent-ring { fill: #b88650; }
-.botanical-accent-center { fill: #77522f; }
-.botanical-accent-seeds circle { fill: #ffe0a0; }
-.botanical-head--bouquet .botanical-outer-petals path { fill: #f4bd58; stroke: #d6a04c; }
-.botanical-head--bouquet .botanical-inner-petals path { fill: #ffe1a0; }
-.botanical-head--bouquet .botanical-center { fill: #805533; }
-.botanical-center-outer { fill: #ab783c; }
-.botanical-center { fill: #654321; stroke: #56351e; stroke-width: 1; }
-.botanical-seeds circle { fill: #e4ba7b; }
-.botanical-stem, .botanical-stems path {
+.botanical-accent-petals path {
+  fill: #ffd47e;
+  stroke: #dcaa5b;
+  stroke-width: 1.4;
+}
+.botanical-accent-ring {
+  fill: #b88650;
+}
+.botanical-accent-center {
+  fill: #77522f;
+}
+.botanical-accent-seeds circle {
+  fill: #ffe0a0;
+}
+.botanical-head--bouquet .botanical-outer-petals path {
+  fill: #f4bd58;
+  stroke: #d6a04c;
+}
+.botanical-head--bouquet .botanical-inner-petals path {
+  fill: #ffe1a0;
+}
+.botanical-head--bouquet .botanical-center {
+  fill: #805533;
+}
+.botanical-center-outer {
+  fill: #ab783c;
+}
+.botanical-center {
+  fill: #654321;
+  stroke: #56351e;
+  stroke-width: 1;
+}
+.botanical-seeds circle {
+  fill: #e4ba7b;
+}
+.botanical-stem,
+.botanical-stems path {
   fill: none;
   stroke: #557d4a;
   stroke-width: 4;
   stroke-linecap: round;
 }
-.botanical-leaf, .botanical-leaves path {
+.botanical-leaf,
+.botanical-leaves path {
   fill: #a1bd79;
   stroke: #648046;
   stroke-width: 1.3;
   stroke-linejoin: round;
 }
-.botanical-detail { fill: none; stroke: #c69849; stroke-width: 2; stroke-linecap: round; }
-.botanical-ribbon { fill: #fff2ce; stroke: #dbaa56; stroke-width: 1.2; }
+.botanical-detail {
+  fill: none;
+  stroke: #c69849;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.botanical-ribbon {
+  fill: #fff2ce;
+  stroke: #dbaa56;
+  stroke-width: 1.2;
+}
 
 /* Ambient petals are fixed across the entire open invitation, not section-scoped. */
 .floating-petals {
@@ -516,21 +671,83 @@ figure {
   animation: floating-petal 15s linear infinite;
   will-change: transform;
 }
-.floating-petals span:nth-child(1) { left: 6%; animation-duration: 18s; animation-delay: -8s; }
-.floating-petals span:nth-child(2) { left: 19%; width: 7px; height: 14px; animation-duration: 14s; animation-delay: -3s; }
-.floating-petals span:nth-child(3) { left: 32%; animation-duration: 20s; animation-delay: -14s; }
-.floating-petals span:nth-child(4) { left: 44%; width: 6px; height: 13px; animation-duration: 17s; animation-delay: -9s; }
-.floating-petals span:nth-child(5) { left: 57%; animation-duration: 16s; animation-delay: -1s; }
-.floating-petals span:nth-child(6) { left: 68%; width: 7px; height: 15px; animation-duration: 21s; animation-delay: -16s; }
-.floating-petals span:nth-child(7) { left: 78%; animation-duration: 19s; animation-delay: -5s; }
-.floating-petals span:nth-child(8) { left: 89%; width: 7px; height: 14px; animation-duration: 15s; animation-delay: -12s; }
-.floating-petals span:nth-child(9) { left: 96%; width: 6px; height: 12px; animation-duration: 22s; animation-delay: -19s; }
-.floating-petals span:nth-child(10) { left: 25%; width: 6px; height: 13px; animation-duration: 23s; animation-delay: -10s; }
+.floating-petals span:nth-child(1) {
+  left: 6%;
+  animation-duration: 18s;
+  animation-delay: -8s;
+}
+.floating-petals span:nth-child(2) {
+  left: 19%;
+  width: 7px;
+  height: 14px;
+  animation-duration: 14s;
+  animation-delay: -3s;
+}
+.floating-petals span:nth-child(3) {
+  left: 32%;
+  animation-duration: 20s;
+  animation-delay: -14s;
+}
+.floating-petals span:nth-child(4) {
+  left: 44%;
+  width: 6px;
+  height: 13px;
+  animation-duration: 17s;
+  animation-delay: -9s;
+}
+.floating-petals span:nth-child(5) {
+  left: 57%;
+  animation-duration: 16s;
+  animation-delay: -1s;
+}
+.floating-petals span:nth-child(6) {
+  left: 68%;
+  width: 7px;
+  height: 15px;
+  animation-duration: 21s;
+  animation-delay: -16s;
+}
+.floating-petals span:nth-child(7) {
+  left: 78%;
+  animation-duration: 19s;
+  animation-delay: -5s;
+}
+.floating-petals span:nth-child(8) {
+  left: 89%;
+  width: 7px;
+  height: 14px;
+  animation-duration: 15s;
+  animation-delay: -12s;
+}
+.floating-petals span:nth-child(9) {
+  left: 96%;
+  width: 6px;
+  height: 12px;
+  animation-duration: 22s;
+  animation-delay: -19s;
+}
+.floating-petals span:nth-child(10) {
+  left: 25%;
+  width: 6px;
+  height: 13px;
+  animation-duration: 23s;
+  animation-delay: -10s;
+}
 @keyframes floating-petal {
-  0% { opacity: 0; transform: translate3d(-26px, -12vh, 0) rotate(-30deg); }
-  12% { opacity: .28; }
-  82% { opacity: .24; }
-  100% { opacity: 0; transform: translate3d(72px, 118vh, 0) rotate(440deg); }
+  0% {
+    opacity: 0;
+    transform: translate3d(-26px, -12vh, 0) rotate(-30deg);
+  }
+  12% {
+    opacity: 0.28;
+  }
+  82% {
+    opacity: 0.24;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(72px, 118vh, 0) rotate(440deg);
+  }
 }
 
 /* Section 3: event and map */
@@ -778,7 +995,6 @@ figure {
   .portrait-frame {
     width: min(100%, 430px);
   }
-
 }
 
 @media (max-width: 767px) {
@@ -794,11 +1010,14 @@ figure {
     text-align: center;
   }
 
-  .hero-eyebrow { margin-bottom: 26px; }
+  .hero-eyebrow {
+    margin-bottom: 26px;
+  }
 
   .hero-title {
     margin-inline: auto;
-    font-size: clamp(3rem, 12vw, 5rem);
+    font-size: clamp(1.7rem, 7.2vw, 3.8rem);
+    white-space: nowrap;
   }
 
   .hero-name {
@@ -824,7 +1043,9 @@ figure {
     gap: 24px;
     text-align: center;
   }
-  .invitation-flower { width: min(33vw, 132px); }
+  .invitation-flower {
+    width: min(33vw, 132px);
+  }
   .invitation-copy {
     width: 100%;
     max-width: none;
@@ -877,8 +1098,17 @@ figure {
     opacity: 1;
     transform: none;
   }
-  .floating-petals { display: none; }
-  .sunflower-reveal--blooming .sunflower-growth { transform: scale(1); }
-  .sunflower-reveal--blooming .sunflower-bud-head { opacity: 0; }
-  .sunflower-reveal--blooming .sunflower-open-head { opacity: 1; transform: none; }
+  .floating-petals {
+    display: none;
+  }
+  .sunflower-reveal--blooming .sunflower-growth {
+    transform: scale(1);
+  }
+  .sunflower-reveal--blooming .sunflower-bud-head {
+    opacity: 0;
+  }
+  .sunflower-reveal--blooming .sunflower-open-head {
+    opacity: 1;
+    transform: none;
+  }
 }
