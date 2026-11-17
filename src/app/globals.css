@@ -919,19 +919,18 @@ figure {
   margin-bottom: 2px;
 }
 
-
 .closing-copy {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
   width: 100%;
-  max-width: 900px;
+  max-width: none;
   text-align: center;
 }
 
 .closing-message {
-  max-width: 850px;
+  max-width: 100%;
   font-size: clamp(1.25rem, 2.2vw, 1.85rem);
   font-weight: 700;
   line-height: 1.55;
@@ -954,6 +953,16 @@ figure {
   text-align: center;
 }
 
+/* Desktop */
+@media (min-width: 1024px) {
+  .closing-message {
+    max-width: none;
+    font-size: clamp(1.1rem, 1.55vw, 1.45rem);
+    white-space: nowrap;
+  }
+}
+
+/* Mobile */
 @media (max-width: 767px) {
   .closing-copy {
     gap: 14px;
@@ -962,6 +971,8 @@ figure {
   .closing-message {
     font-size: clamp(1.2rem, 5vw, 1.45rem);
     line-height: 1.6;
+    white-space: normal;
+    text-wrap: balance;
   }
 
   .closing-thank-you {
